@@ -1,0 +1,17 @@
+.root {
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    width: 400px;
+}
+input {
+    flex: 1;
+}
+.iconButton {
+    padding: 10px;
+    float: right;
+}
+.divider {
+    height: 28px;
+    margin: 4px;
+}
