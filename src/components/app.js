@@ -19,7 +19,7 @@ class TodoItem extends React.Component {
                 inputProps={{ 'aria-label': 'Checkbox A' }}
             />
             <span>{this.props.todo}</span>
-            <IconButton aria-label="delete">
+            <IconButton aria-label="delete" onClick={this.props.deleteItem}>
                 <DeleteIcon fontSize="small" />
             </IconButton>
           </div>
@@ -27,23 +27,12 @@ class TodoItem extends React.Component {
   }
 }
 
-class Todo extends React.Component{
-    render(){
-      return(
-        <div className="ToDo-Content">
-            {this.props.todolist.map((item, key) => {
-              return <TodoItem
-                key={key}
-                todo={item.todo}
-              />
-            }
-          )}
-        </div>
-      );
-    }
-  };
-  
-class Add extends React.Component {
+class Todo extends React.Component {
+  deleteItem = indexToDelete => {
+    this.setState(({ todolist }) => ({
+      todolist: todolist.filter((key, index) => index !== indexToDelete)
+    }));
+  }
   constructor(props){
     super(props);
     this.state = {
@@ -70,6 +59,7 @@ class Add extends React.Component {
       ));
       console.log(this.state.todolist);
   }
+
   render(){
     return(
       <div>
@@ -84,20 +74,29 @@ class Add extends React.Component {
             <AddIcon />
           </IconButton>
         </Paper>
-        <Todo todolist={this.state.todolist} />
+        <div className="ToDo-Content">
+            {this.state.todolist.map((item, key) => {
+              return <TodoItem
+                key={key}
+                todo={item.todo}
+                deleteItem={this.deleteItem.bind(this, key)}
+              />
+            }
+          )}
+        </div>
       </div>
     );
   }
 }
 
 class App extends React.Component {
-    render() {
-        return(
-            <div>
-                <Add />
-            </div>
-        );
-    }
+  render() {
+    return(
+      <div>
+        <Todo />
+      </div>
+    );
+  }
 }
 
 export default App;
