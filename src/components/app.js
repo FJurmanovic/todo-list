@@ -43,6 +43,9 @@ class Todo extends React.Component {
         {id: 2, todo: "Second Todo", checkbox: false},
         {id: 3, todo: "Welcome to the jungle, cuz this ain't sahara desert", checkbox: false}
       ],
+      completelist: [
+        {id: 1, todo: "Ques", checkbox: true}
+      ],
       textvalue: "",
     }
   }
@@ -68,6 +71,17 @@ class Todo extends React.Component {
     this.setState({
       todolist: todolistCopy 
     }) 
+    if (todolistCopy[e].checkbox == true){
+      this.setState (prevState => (
+        {
+          completelist: [...prevState.completelist, {id: this.state.completelist.length +1, todo: todolistCopy[e].todo, checkbox: true}]
+        }
+      ));
+      this.deleteItem(e);
+    }else{
+    }
+    console.log(this.state.todolist);
+    console.log(this.state.completelist);
   }
 
   render(){
