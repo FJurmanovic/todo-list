@@ -15,8 +15,10 @@ class TodoItem extends React.Component {
     return(
       <div key={this.props.id}>
             <Checkbox
+                checked={this.props.checkbox}
                 value="checkedA"
                 inputProps={{ 'aria-label': 'Checkbox A' }}
+                onChange={this.props.cboxChagne}
             />
             <span>{this.props.todo}</span>
             <IconButton aria-label="delete" onClick={this.props.deleteItem}>
@@ -37,9 +39,9 @@ class Todo extends React.Component {
     super(props);
     this.state = {
       todolist: [
-        {id: 1, todo: "First Todo"},
-        {id: 2, todo: "Second Todo"},
-        {id: 3, todo: "Welcome to the jungle, cuz this ain't sahara desert"}
+        {id: 1, todo: "First Todo", checkbox: false},
+        {id: 2, todo: "Second Todo", checkbox: false},
+        {id: 3, todo: "Welcome to the jungle, cuz this ain't sahara desert", checkbox: false}
       ],
       textvalue: "",
     }
@@ -54,10 +56,18 @@ class Todo extends React.Component {
   addFunc(){
       this.setState (prevState => (
         {
-          todolist: [...prevState.todolist, {id: this.state.todolist.length +1, todo: this.state.textvalue}]
+          todolist: [...prevState.todolist, {id: this.state.todolist.length +1, todo: this.state.textvalue, checkbox: false}]
         }
       ));
       console.log(this.state.todolist);
+  }
+
+  cboxChange = (e) => {
+    let todolistCopy = JSON.parse(JSON.stringify(this.state.todolist))
+    todolistCopy[e].checkbox = !todolistCopy[e].checkbox
+    this.setState({
+      todolist: todolistCopy 
+    }) 
   }
 
   render(){
@@ -80,6 +90,8 @@ class Todo extends React.Component {
                 key={key}
                 todo={item.todo}
                 deleteItem={this.deleteItem.bind(this, key)}
+                checkbox={item.checkbox}
+                cboxChagne={this.cboxChange.bind(this, key)}
               />
             }
           )}
