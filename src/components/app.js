@@ -35,6 +35,11 @@ class Todo extends React.Component {
       todolist: todolist.filter((key, index) => index !== indexToDelete)
     }));
   }
+  deleteItem2 = indexToDelete => {
+    this.setState(({ completelist }) => ({
+      completelist: completelist.filter((key, index) => index !== indexToDelete)
+    }));
+  }
   constructor(props){
     super(props);
     this.state = {
@@ -78,7 +83,24 @@ class Todo extends React.Component {
         }
       ));
       this.deleteItem(e);
-    }else{
+    }
+    console.log(this.state.todolist);
+    console.log(this.state.completelist);
+  }
+
+  cbox2Change = (e) => {
+    let completelistCopy = JSON.parse(JSON.stringify(this.state.completelist))
+    completelistCopy[e].checkbox = !completelistCopy[e].checkbox
+    this.setState({
+      completelist: completelistCopy 
+    }) 
+    if (completelistCopy[e].checkbox == false){
+      this.setState (prevState => (
+        {
+          todolist: [...prevState.todolist, {id: this.state.todolist.length +1, todo: completelistCopy[e].todo, checkbox: false}]
+        }
+      ));
+      this.deleteItem2(e);
     }
     console.log(this.state.todolist);
     console.log(this.state.completelist);
@@ -87,28 +109,44 @@ class Todo extends React.Component {
   render(){
     return(
       <div>
-        <Paper className="root">
-          <InputBase
-            className="input"
-            placeholder="Add new todo"
-            inputProps={{ 'aria-label': 'add todo' }}
-            onChange={this.handleChange}
-          />
-          <IconButton className="iconButton" aria-label="add" onClick={() => this.addFunc()}>
-            <AddIcon />
-          </IconButton>
-        </Paper>
-        <div className="ToDo-Content">
-            {this.state.todolist.map((item, key) => {
-              return <TodoItem
-                key={key}
-                todo={item.todo}
-                deleteItem={this.deleteItem.bind(this, key)}
-                checkbox={item.checkbox}
-                cboxChagne={this.cboxChange.bind(this, key)}
-              />
-            }
-          )}
+        <div>
+          <Paper className="root">
+            <InputBase
+              className="input"
+              placeholder="Add new todo"
+              inputProps={{ 'aria-label': 'add todo' }}
+              onChange={this.handleChange}
+            />
+            <IconButton className="iconButton" aria-label="add" onClick={() => this.addFunc()}>
+              <AddIcon />
+            </IconButton>
+          </Paper>
+          <div className="ToDo-Content">
+              {this.state.todolist.map((item, key) => {
+                return <TodoItem
+                  key={key}
+                  todo={item.todo}
+                  deleteItem={this.deleteItem.bind(this, key)}
+                  checkbox={item.checkbox}
+                  cboxChagne={this.cboxChange.bind(this, key)}
+                />
+              }
+            )}
+          </div>
+        </div>
+        <div>
+          <div className="ToDo-Content">
+              {this.state.completelist.map((item, key) => {
+                return <TodoItem
+                  key={key}
+                  todo={item.todo}
+                  deleteItem={this.deleteItem2.bind(this, key)}
+                  checkbox={item.checkbox}
+                  cboxChagne={this.cbox2Change.bind(this, key)}
+                />
+              }
+            )}
+          </div>
         </div>
       </div>
     );
