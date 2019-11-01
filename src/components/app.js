@@ -15,13 +15,14 @@ class TodoItem extends React.Component {
     return(
       <div key={this.props.id}>
             <Checkbox
+                className="cb"
                 checked={this.props.checkbox}
                 value="checkedA"
                 inputProps={{ 'aria-label': 'Checkbox A' }}
                 onChange={this.props.cboxChagne}
             />
             <span>{this.props.todo}</span>
-            <IconButton aria-label="delete" onClick={this.props.deleteItem}>
+            <IconButton className="ib" aria-label="delete" onClick={this.props.deleteItem}>
                 <DeleteIcon fontSize="small" />
             </IconButton>
           </div>
@@ -109,45 +110,48 @@ class Todo extends React.Component {
   render(){
     return(
       <div>
-        <div>
-          <Paper className="root">
-            <InputBase
-              className="input"
-              placeholder="Add new todo"
-              inputProps={{ 'aria-label': 'add todo' }}
-              onChange={this.handleChange}
-            />
-            <IconButton className="iconButton" aria-label="add" onClick={() => this.addFunc()}>
-              <AddIcon />
-            </IconButton>
-          </Paper>
-          <div className="ToDo-Content">
-              {this.state.todolist.map((item, key) => {
-                return <TodoItem
-                  key={key}
-                  todo={item.todo}
-                  deleteItem={this.deleteItem.bind(this, key)}
-                  checkbox={item.checkbox}
-                  cboxChagne={this.cboxChange.bind(this, key)}
-                />
-              }
-            )}
+          <div className="add">
+            <Paper className="root">
+              <InputBase
+                className="input"
+                placeholder="Add new todo"
+                inputProps={{ 'aria-label': 'add todo' }}
+                onChange={this.handleChange}
+              />
+              <IconButton className="iconButton" aria-label="add" onClick={() => this.addFunc()}>
+                <AddIcon />
+              </IconButton>
+            </Paper>
           </div>
-        </div>
-        <div>
-          <div className="ToDo-Content">
-              {this.state.completelist.map((item, key) => {
-                return <TodoItem
-                  key={key}
-                  todo={item.todo}
-                  deleteItem={this.deleteItem2.bind(this, key)}
-                  checkbox={item.checkbox}
-                  cboxChagne={this.cbox2Change.bind(this, key)}
-                />
-              }
-            )}
+          <br />
+          <div className="alignmain">
+            <div className="main">
+              <div className="todo">
+                  {this.state.todolist.map((item, key) => {
+                    return <TodoItem
+                      key={key}
+                      todo={item.todo}
+                      deleteItem={this.deleteItem.bind(this, key)}
+                      checkbox={item.checkbox}
+                      cboxChagne={this.cboxChange.bind(this, key)}
+                    />
+                  }
+                )}
+              </div>
+              <div className="complete">
+                  {this.state.completelist.map((item, key) => {
+                    return <TodoItem
+                      key={key}
+                      todo={item.todo}
+                      deleteItem={this.deleteItem2.bind(this, key)}
+                      checkbox={item.checkbox}
+                      cboxChagne={this.cbox2Change.bind(this, key)}
+                    />
+                  }
+                )}
+              </div>
+            </div>
           </div>
-        </div>
       </div>
     );
   }
