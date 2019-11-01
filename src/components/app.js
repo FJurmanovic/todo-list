@@ -40,16 +40,8 @@ class Todo extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      todolist: [{
-        id: 1,
-        todo: "Who",
-        checkbox: false
-      }],
-      completelist: [{
-        id: 1,
-        todo: "Me",
-        checkbox: true
-      }],
+      todolist: [],
+      completelist: [],
       textvalue: "",
     }
   }
