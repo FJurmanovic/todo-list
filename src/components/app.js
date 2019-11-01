@@ -52,14 +52,15 @@ class Todo extends React.Component {
       }],
       textvalue: "",
     }
-    this.updatingLocal();
   }
 
   componentDidMount() {
     const todolistData = JSON.parse( localStorage.getItem( "todolist" ) );
     const completelistData = JSON.parse( localStorage.getItem( "completelist" ) );
-    this.setState( { todolist: todolistData } );
-    this.setState( { completelist: completelistData } );
+    if (localStorage.getItem("todolist") || localStorage.getItem("completelist")){
+      this.setState( { todolist: todolistData } );
+      this.setState( { completelist: completelistData } );
+    }
   }
 
   updatingLocal(){
