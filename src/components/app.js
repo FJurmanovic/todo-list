@@ -52,6 +52,7 @@ class Todo extends React.Component {
       }],
       textvalue: "",
     }
+    this.updatingLocal();
   }
 
   componentDidMount() {
@@ -66,6 +67,11 @@ class Todo extends React.Component {
     console.log(this.state.completelist);
     localStorage.setItem("todolist", JSON.stringify(this.state.todolist));
     localStorage.setItem("completelist", JSON.stringify(this.state.completelist));
+  }
+
+  clearLocal(){
+    localStorage.clearItem("todolist");
+    localStorage.clearItem("completelist");
   }
 
   deleteItem = indexToDelete => {
