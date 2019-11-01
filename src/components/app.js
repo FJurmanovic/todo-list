@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import AddIcon from '@material-ui/icons/Add';
+import cookie from "react-cookie";
 
 import './app.css';
 
@@ -31,29 +32,46 @@ class TodoItem extends React.Component {
 }
 
 class Todo extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      todolist: [{
+        id: 1,
+        todo: "Who",
+        checkbox: false
+      }],
+      completelist: [{
+        id: 1,
+        todo: "Me",
+        checkbox: true
+      }],
+      textvalue: "",
+    }
+  }
+
+  componentDidMount() {
+    const todolistData = JSON.parse( localStorage.getItem( "todolist" ) );
+    const completelistData = JSON.parse( localStorage.getItem( "completelist" ) );
+    this.setState( { todolist: todolistData } );
+    this.setState( { completelist: completelistData } );
+  }
+
+  updatingLocal(){
+    console.log(this.state.todolist);
+    console.log(this.state.completelist);
+    localStorage.setItem("todolist", JSON.stringify(this.state.todolist));
+    localStorage.setItem("completelist", JSON.stringify(this.state.completelist));
+  }
+
   deleteItem = indexToDelete => {
     this.setState(({ todolist }) => ({
       todolist: todolist.filter((key, index) => index !== indexToDelete)
-    }));
+    }), this.updatingLocal);
   }
   deleteItem2 = indexToDelete => {
     this.setState(({ completelist }) => ({
       completelist: completelist.filter((key, index) => index !== indexToDelete)
-    }));
-  }
-  constructor(props){
-    super(props);
-    this.state = {
-      todolist: [
-        {id: 1, todo: "First Todo", checkbox: false},
-        {id: 2, todo: "Second Todo", checkbox: false},
-        {id: 3, todo: "Welcome to the jungle, cuz this ain't sahara desert", checkbox: false}
-      ],
-      completelist: [
-        {id: 1, todo: "Ques", checkbox: true}
-      ],
-      textvalue: "",
-    }
+    }), this.updatingLocal);
   }
 
   handleChange = (e) => {
@@ -67,8 +85,7 @@ class Todo extends React.Component {
         {
           todolist: [...prevState.todolist, {id: this.state.todolist.length +1, todo: this.state.textvalue, checkbox: false}]
         }
-      ));
-      console.log(this.state.todolist);
+      ), this.updatingLocal);
   }
 
   cboxChange = (e) => {
@@ -82,11 +99,9 @@ class Todo extends React.Component {
         {
           completelist: [...prevState.completelist, {id: this.state.completelist.length +1, todo: todolistCopy[e].todo, checkbox: true}]
         }
-      ));
-      this.deleteItem(e);
+      ),this.deleteItem(e), this.updatingLocal);
+      
     }
-    console.log(this.state.todolist);
-    console.log(this.state.completelist);
   }
 
   cbox2Change = (e) => {
@@ -100,11 +115,9 @@ class Todo extends React.Component {
         {
           todolist: [...prevState.todolist, {id: this.state.todolist.length +1, todo: completelistCopy[e].todo, checkbox: false}]
         }
-      ));
-      this.deleteItem2(e);
+      ),this.deleteItem2(e), this.updatingLocal);
+      
     }
-    console.log(this.state.todolist);
-    console.log(this.state.completelist);
   }
 
   render(){
