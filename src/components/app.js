@@ -179,6 +179,7 @@ class App extends React.Component {
     return(
       <div>
         <Todo />
+        {console.log("Version 0.9")}
       </div>
     );
   }
