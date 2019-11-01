@@ -14,7 +14,8 @@ import './app.css';
 class TodoItem extends React.Component {
   render(){
     return(
-      <div key={this.props.id}>
+      <div key={this.props.id} className='item'>
+        <Paper className='Paper'>
             <Checkbox
                 className="cb"
                 checked={this.props.checkbox}
@@ -22,11 +23,15 @@ class TodoItem extends React.Component {
                 inputProps={{ 'aria-label': 'Checkbox A' }}
                 onChange={this.props.cboxChagne}
             />
-            <span>{this.props.todo}</span>
+            <div className='text'>
+              {this.props.todo}
+              <div className='tooltiptext'>{this.props.todo}</div>
+            </div>
             <IconButton className="ib" aria-label="delete" onClick={this.props.deleteItem}>
                 <DeleteIcon fontSize="small" />
             </IconButton>
-          </div>
+        </Paper>
+      </div>
     );
   }
 }
