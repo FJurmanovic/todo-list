@@ -10,7 +10,7 @@
 - [x] Removing items
 - [x] Tooltip that shows full text when hovering over it
 - [x] Usage of cookies
-- [ ] Editing items when press on text
+- [x] Editing items when press on text
 
 
 ____
