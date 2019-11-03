@@ -6,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import AddIcon from '@material-ui/icons/Add';
-import cookie from "react-cookie";
 
 import './app.css';
 
@@ -14,9 +13,6 @@ import './app.css';
 class TodoItem extends React.Component {
   constructor() {
     super();
-    this.state = {
-      textvalue:""
-    };
 
   }
 
@@ -27,7 +23,6 @@ class TodoItem extends React.Component {
   }
 
   handleEnterKey = (e) => {
-    console.log(e.keyHash)
     if (e.key === 'Enter') {
       this.props.getOffEditMode();
     }
@@ -82,6 +77,7 @@ class Todo extends React.Component {
       todolist: [],
       completelist: [],
       textvalue: "",
+      textvalueAdd: "",
     }
   }
 
@@ -105,14 +101,16 @@ class Todo extends React.Component {
     let todolistCopy = JSON.parse(JSON.stringify(this.state.todolist))
     todolistCopy[e].onEditMode = true
     this.setState({
-      todolist: todolistCopy 
+      todolist: todolistCopy,
+      textvalue: todolistCopy[e].todo
     }) 
   };
   getIntoEditMode2 = (e) => {
     let completelistCopy = JSON.parse(JSON.stringify(this.state.completelist))
     completelistCopy[e].onEditMode = true
     this.setState({
-      completelist: completelistCopy 
+      completelist: completelistCopy,
+      textvalue: completelistCopy[e].todo
     }) 
   };
   
@@ -121,7 +119,8 @@ class Todo extends React.Component {
     todolistCopy[e].todo = this.state.textvalue
     todolistCopy[e].onEditMode = false
     this.setState({
-      todolist: todolistCopy 
+      todolist: todolistCopy,
+      textvalue: ""
     }, this.updatingLocal) 
   };
 
@@ -130,13 +129,12 @@ class Todo extends React.Component {
     completelistCopy[e].todo = this.state.textvalue
     completelistCopy[e].onEditMode = false
     this.setState({
-      completelist: completelistCopy 
+      completelist: completelistCopy ,
+      textvalue: ""
     }, this.updatingLocal) 
   };
 
   updatingLocal(){
-    console.log(this.state.todolist);
-    console.log(this.state.completelist);
     localStorage.setItem("todolist", JSON.stringify(this.state.todolist));
     localStorage.setItem("completelist", JSON.stringify(this.state.completelist));
   }
@@ -163,16 +161,21 @@ class Todo extends React.Component {
     });
   }
 
+  handleChangeAdd = (e) => {
+    this.setState ( {
+      textvalueAdd: e.target.value,
+    });
+  }
+
   addFunc(){
       this.setState (prevState => (
         {
-          todolist: [...prevState.todolist, {todo: this.state.textvalue, checkbox: false, onEditMode: false}]
+          todolist: [...prevState.todolist, {todo: this.state.textvalueAdd, checkbox: false, onEditMode: false}]
         }
       ), this.updatingLocal);
   }
 
   cboxChange = (e) => {
-    console.log(e);
     let todolistCopy = JSON.parse(JSON.stringify(this.state.todolist))
     todolistCopy[e].checkbox = !todolistCopy[e].checkbox
     this.setState({
@@ -204,6 +207,12 @@ class Todo extends React.Component {
     }
   }
 
+  handleEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      this.addFunc()
+    }
+  }
+
   render(){
     return(
       <div>
@@ -213,7 +222,8 @@ class Todo extends React.Component {
                 className="input"
                 placeholder="Add new todo"
                 inputProps={{ 'aria-label': 'add todo' }}
-                onChange={this.handleChange}
+                onChange={this.handleChangeAdd}
+                onKeyPress={this.handleEnterKey}
               />
               <IconButton className="iconButton" aria-label="add" onClick={() => this.addFunc()}>
                 <AddIcon />
@@ -233,7 +243,6 @@ class Todo extends React.Component {
                       cboxChagne={this.cboxChange.bind(this, key)}
                       getOffEditMode={this.getOffEditMode.bind(this, key)}
                       getIntoEditMode={this.getIntoEditMode.bind(this, key)}
-                      //handleEnterKey={this.handleEnterKey.bind(this, key)}
                       handleChange={this.handleChange.bind(this, key)}
                       onEditMode={item.onEditMode}
                       handleStateChange = {this.handleStateChange}
@@ -251,7 +260,6 @@ class Todo extends React.Component {
                       cboxChagne={this.cbox2Change.bind(this, key)}
                       getOffEditMode={this.getOffEditMode2.bind(this, key)}
                       getIntoEditMode={this.getIntoEditMode2.bind(this, key)}
-                      //handleEnterKey={this.handleEnterKey.bind(this, key)}
                       handleChange={this.handleChange.bind(this, key)}
                       onEditMode={item.onEditMode}
                       handleStateChange = {this.handleStateChange}
@@ -271,7 +279,7 @@ class App extends React.Component {
     return(
       <div>
         <Todo />
-        {console.log("Version 0.9.9")}
+        {console.log("Version 1.0.0")}
       </div>
     );
   }
