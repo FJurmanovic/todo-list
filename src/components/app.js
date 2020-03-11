@@ -170,9 +170,11 @@ class Todo extends React.Component {
   addFunc(){
       this.setState (prevState => (
         {
-          todolist: [...prevState.todolist, {todo: this.state.textvalueAdd, checkbox: false, onEditMode: false}]
+          todolist: [...prevState.todolist, {todo: this.state.textvalueAdd, checkbox: false, onEditMode: false}],
+          textvalueAdd: ""
         }
       ), this.updatingLocal);
+      
   }
 
   cboxChange = (e) => {
@@ -224,6 +226,9 @@ class Todo extends React.Component {
                 inputProps={{ 'aria-label': 'add todo' }}
                 onChange={this.handleChangeAdd}
                 onKeyPress={this.handleEnterKey}
+                defaultValue = ""
+                value={this.state.textvalueAdd}
+                autoFocus
               />
               <IconButton className="iconButton" aria-label="add" onClick={() => this.addFunc()}>
                 <AddIcon />
@@ -279,7 +284,7 @@ class App extends React.Component {
     return(
       <div>
         <Todo />
-        {console.log("Version 1.0.0")}
+        {console.log("Version 1.0.5")}
       </div>
     );
   }
