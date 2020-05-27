@@ -1,3 +1,11 @@
+* {    
+    box-sizing: border-box;
+}
+
+body {
+    background: #f1f1f1;
+}
+
 .root {
     padding: 2px 4px;
     display: flex;
@@ -9,7 +17,7 @@
     margin-left: 8px;
 }
 .section{
-    display: inline;
+    display: inline-block;
 }
 .inputb {
     width: 290px;
@@ -28,29 +36,36 @@
 }
 .alignmain{
     margin: 0 auto;
-    width: 50%;
-    padding: 0 50px;
+    width: 100%;
 }
 .main{
     margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
+    width: 850px;
     font-family: 'Roboto', sans-serif;
 }
 .todo {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 1;
+    background-color: #e3e3e3;
+    border: 1px solid transparent;
+    border-radius: 0.5em;
+    display: inline-block;
+    margin-right: 5px;
+    width: 418px;
 }
 
 .complete {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 1;
+    background-color: #e3e3e3;
+    border: 1px solid transparent;
+    border-radius: 0.5em;
+    display: inline-block;
+    margin-left: 5px;
+    position: absolute;
+    width: 418px;
+}
+
+.todo .title, .complete .title {
+    text-align: center;
+    margin: 4px;
+    font-weight: 600;
 }
 
 .todo .cb, .complete .cb{
@@ -104,3 +119,41 @@ br{
       font-weight: bold;
   }
 
+@media only screen and (max-width: 860px){
+    .todo, .complete {
+        display: block;
+        position: relative;
+        margin: auto;
+        margin-top: 20px;
+    }
+
+    .main {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 425px){
+    .item {
+        width: 100%;
+    }
+
+    .Paper {
+        width: calc(100vw - 34px);
+    }
+
+    .section {
+        width: calc(100vw / 2);
+    }
+
+    .todo, .complete {
+        width: 100%;
+    }
+
+    .add {
+        width: 96vw;
+    }
+    .root {
+        
+        width: 96vw;
+    }
+}

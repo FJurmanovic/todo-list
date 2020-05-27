@@ -239,6 +239,7 @@ class Todo extends React.Component {
           <div className="alignmain">
             <div className="main">
               <div className="todo">
+                  <div className="title">To-do</div>
                   {this.state.todolist.map((item, key) => {
                     return <TodoItem
                       key={key}
@@ -256,6 +257,7 @@ class Todo extends React.Component {
                 )}
               </div>
               <div className="complete">
+                <div className="title">Complete</div>
                   {this.state.completelist.map((item, key) => {
                     return <TodoItem
                       key={key}
