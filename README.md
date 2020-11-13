@@ -14,4 +14,4 @@
 
 
 ____
-## Check it live on github-pages: [Todo-List](https://yurma.wtf/todo-list)
+## Check it live on github-pages: [Todo-List](https://jurmanovic.com/todo-list)
